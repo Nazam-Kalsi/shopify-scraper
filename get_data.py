@@ -9,7 +9,7 @@ import pandas as pd
 df = pd.read_csv('post_urls.csv')
 urls = df["0"].tolist()
 
-print(len(urls))
+print(f"Number of url's : {len(urls)}")
 
 def setup():
     chrome_options = Options()
@@ -32,6 +32,7 @@ def parse_urls(urls):
     }
 
     for i,url in enumerate(urls):
+        print(f"Parsing url number : {i+1}")
         driver = setup()
         driver.get(url)
         try:
@@ -95,7 +96,6 @@ def parse_urls(urls):
                     print("Nested div not found in one of the replies.")
         
         data["replies"].append(reply_texts)
-
 
     return pd.DataFrame(data)
 
