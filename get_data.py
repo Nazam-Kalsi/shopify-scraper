@@ -43,6 +43,7 @@ def parse_urls(urls):
     }
 
     for i, url in enumerate(urls):
+        if i==3:break;
         print(f"Parsing url number : {i+1}")
         driver = setup()
         try:
@@ -158,3 +159,5 @@ if __name__ == "__main__":
 
     df = parse_urls(urls)
     df.to_csv("shopify_discussion_data.csv")
+    print("Parsing Successfull")
+    print(f"Total items in dataset : {len(df)}")
