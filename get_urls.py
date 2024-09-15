@@ -4,7 +4,6 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException, NoSuchElementException
 from selenium.webdriver.common.by import By
-import os
 import pandas as pd
 
 
@@ -15,15 +14,7 @@ def setup():
     chrome_options.add_argument("--window-size=1920x1080")
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")
-
     return webdriver.Chrome(options=chrome_options)
-
-
-def save_data_to_file(data, filename):
-    os.makedirs("data", exist_ok=True)
-    with open(f"data/{filename}", "w", encoding="utf-8") as file:
-        file.write(data)
-
 
 # Scrape Discussion URLs
 def get_discussion_urls():
@@ -48,6 +39,7 @@ def get_discussion_urls():
             :-1
         ]
     ]
+    driver.quit()
     return discussions_urls
 
 
@@ -89,6 +81,7 @@ def scrape_post_urls_from_discussion(url):
             print(f"error : {e}")
 
     print(f"Total url from {url} are : {len(post_urls)}")
+    driver.quit()
     return post_urls
 
 

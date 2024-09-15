@@ -19,7 +19,6 @@ def setup():
     chrome_options.add_argument("--window-size=1920x1080")
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")
-
     return webdriver.Chrome(options=chrome_options)
 
 
@@ -56,9 +55,7 @@ def parse_urls(urls):
             continue
 
         try:
-            
-                        
-        # Title
+            # Title
             title = driver.find_element(By.CSS_SELECTOR, "h1.page-title").text
 
             # User Details
@@ -69,14 +66,16 @@ def parse_urls(urls):
             ).text.strip()
 
             # User Stats
-            user_posts=driver.find_element(By.CSS_SELECTOR, ".lia-message-author-posts-count").text
-            
-            solution_by_user= driver.find_element(
-                    By.CSS_SELECTOR, ".lia-message-author-solutions-count"
-                ).text.strip()
-            user_kudos=driver.find_element(
-                    By.CSS_SELECTOR, ".lia-message-author-kudos-count"
-                ).text.strip()
+            user_posts = driver.find_element(
+                By.CSS_SELECTOR, ".lia-message-author-posts-count"
+            ).text
+
+            solution_by_user = driver.find_element(
+                By.CSS_SELECTOR, ".lia-message-author-solutions-count"
+            ).text.strip()
+            user_kudos = driver.find_element(
+                By.CSS_SELECTOR, ".lia-message-author-kudos-count"
+            ).text.strip()
 
             # Timestamps,Post Content, Solved Status and accepted solution if solved
             publish_date = driver.find_element(
@@ -89,7 +88,9 @@ def parse_urls(urls):
 
             solved = (
                 "Y"
-                if driver.find_elements(By.CSS_SELECTOR, ".lia-panel-feedback-banner-safe")
+                if driver.find_elements(
+                    By.CSS_SELECTOR, ".lia-panel-feedback-banner-safe"
+                )
                 else "N"
             )
 
@@ -128,7 +129,6 @@ def parse_urls(urls):
                     reply_texts.append(reply_content.text)
                 except:
                     print("Nested div not found in one of the replies.")
-                    
 
             data["url"].append(url)
             data["title"].append(title)
@@ -146,11 +146,11 @@ def parse_urls(urls):
             data["number_of_likes"].append(likes.text.strip())
             data["number_of_views"].append(views.text.strip() if views else "0")
             data["replies"].append(reply_texts)
-            
+
         except Exception as e:
             print(f"error while parsing {url}")
             continue
-
+    driver.quit()
     return pd.DataFrame(data)
 
 
