@@ -42,7 +42,6 @@ def parse_urls(urls):
     }
 
     for i, url in enumerate(urls):
-        # if i == 3: break
         print(f"Parsing url number : {i+1}")
         driver = setup()
         try:
@@ -67,7 +66,6 @@ def parse_urls(urls):
             publish_date = driver.find_element(By.CSS_SELECTOR, ".DateTime > meta").get_attribute("content")
             post_content = driver.find_element(By.CSS_SELECTOR, ".lia-message-body-content").text
             solved = "Y" if driver.find_elements(By.CSS_SELECTOR, ".lia-panel-feedback-banner-safe") else "N"
-            # accepted_sol = " ".join([elem.text for elem in driver.find_elements(By.CSS_SELECTOR, ".lia-message-body-content")[1:]]) if solved == "Y" else ""
             accepted_sol = ""
 
             labels = [label.text.strip() for label in driver.find_elements(By.CSS_SELECTOR, ".label")]
@@ -121,9 +119,9 @@ def parse_urls(urls):
                         data["timestamp"].append(reply_timestamp)
                         data["post_content"].append(reply_content)
                         data["solved"].append("")
-                        data["labels_list"].append("")
+                        data["labels_list"].append(labels)
                         data["number_of_likes"].append(reply_user_sol_likes)
-                        data["number_of_views"].append("")
+                        data["number_of_views"].append("NaN")
                         data["parent_post"].append("N")
                         data["accepted_sol"].append(accepted_reply_or_not)
                     except Exception as e:
